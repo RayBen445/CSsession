@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pair Code</title>
+  <title id="page-title">Pair Code</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script>
+    // Set page title from config
+    fetch('/config').then(r => r.json()).then(config => {
+      document.getElementById('page-title').innerText = config.PAIR_PAGE_TITLE;
+      document.title = config.PAIR_PAGE_TITLE;
+    }).catch(() => {});
+  </script>
   <style>
     body {
       display: flex;
@@ -142,10 +149,10 @@
         <div id="text">
           <i class="fa fa-user"></i>
           <p>
-            <h3 class="centered-text">WASITECH PAIRING CODE</h3>
+            <h3 class="centered-text" id="pairing-header">WASITECH PAIRING CODE</h3>
             <br>
-            <h6>Made By WASI TECH🔥.</h6>
-            <h6>Enter Your Number with Country Code.</h6>
+            <h6 id="pairing-subheader">Made By WASI TECH🔥.</h6>
+            <h6 id="pairing-instructions">Enter Your Number with Country Code.</h6>
             <div class="input-container">
               <input placeholder="923192173xxx" type="number" id="number" placeholder="Enter your Phone Pumber with Cuntry Code" name="">
               <button id="submit">Submit</button>
@@ -166,6 +173,20 @@
     let b = document.getElementById("submit");
     let c = document.getElementById("number");
     let box = document.getElementById("box");
+    
+    // Load configuration and update UI
+    async function loadConfig() {
+      try {
+        const { data: config } = await axios('/config');
+        document.getElementById('pairing-header').innerText = config.PAIRING_HEADER;
+        document.getElementById('pairing-subheader').innerText = 'Made By ' + config.COMPANY_NAME + '🔥.';
+        document.getElementById('pairing-instructions').innerText = config.PAIRING_INSTRUCTIONS;
+        document.querySelector('input#number').placeholder = config.PHONE_NUMBER.slice(0, -3) + 'xxx';
+      } catch (err) {
+        console.log('Using default configuration');
+      }
+    }
+    loadConfig();
 
     async function Copy() {
       let text = document.getElementById("copy").innerText;

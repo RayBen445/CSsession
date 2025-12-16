@@ -2,12 +2,16 @@ const express = require('express');
 const app = express();
 __path = process.cwd()
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 8000;
+const config = require('./config');
+const PORT = process.env.PORT || config.DEFAULT_PORT;
 let server = require('./wasiqr.js'),
     code = require('./pair');
 require('events').EventEmitter.defaultMaxListeners = 500;
 app.use('/wasiqr', server);
 app.use('/code', code);
+app.use('/config', async (req, res) => {
+    res.json(config);
+});
 app.use('/pair',async (req, res, next) => {
 res.sendFile(__path + '/pair.html')
 })
