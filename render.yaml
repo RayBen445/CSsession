@@ -1,0 +1,24 @@
+# Render Blueprint for WhatsApp Session Generator
+# This file enables one-click deployment to Render
+
+services:
+  # Web Service
+  - type: web
+    name: session-generator
+    runtime: node
+    env: node
+    region: oregon  # Change to your preferred region: oregon, frankfurt, singapore
+    plan: free  # Options: free, starter, standard, pro
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.6
+      - key: NODE_ENV
+        value: production
+      # Optional: Override config.js values with environment variables
+      # - key: COMPANY_NAME
+      #   value: Your Company Name
+      # - key: PHONE_NUMBER
+      #   value: 1234567890
