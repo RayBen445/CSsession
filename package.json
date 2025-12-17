@@ -1,5 +1,7 @@
 {
-    "description": "wasisession",
+    "name": "session-generator",
+    "version": "1.0.0",
+    "description": "WhatsApp Session Generator for Baileys-based bots - Easily customizable with your company details",
     "main": "./itxxwasi.js",
   "engines" : { 
     "npm" : ">=9.7.2",
@@ -9,7 +11,7 @@
     "start": "node itxxwasi.js"
   },
   "author": "WasiTech",
-  "license": "GPL-3.0 license",
+  "license": "GPL-3.0",
   "dependencies": {
     "@whiskeysockets/baileys": "^6.5.0",
     "maher-zubair-baileys": "^6.6.5",

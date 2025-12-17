@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>WASI TECH BOT </title>
+  <title id="page-title">WASI TECH BOT </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // Set page title from config
+    fetch('/config').then(r => r.json()).then(config => {
+      document.getElementById('page-title').innerText = config.MAIN_PAGE_TITLE;
+      document.title = config.MAIN_PAGE_TITLE;
+    }).catch(() => {});
+  </script>
   <style>
     body {
       display: flex;
@@ -127,17 +134,38 @@
 </head>
 <body>
   <div style="text-align: center; margin-bottom: 20px; color: #666;">
-    <div style="font-weight: bold; animation: float 3s ease-in-out infinite; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Created by Mr Wasi Dev</div>
+    <div id="creator-name" style="font-weight: bold; animation: float 3s ease-in-out infinite; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Created by Mr Wasi Dev</div>
   </div>
 
   <button onclick="window.open(`/wasiqr`)" class="btn">QR Code</button>
   <button onclick="window.open(`/pair`)" class="btn">Pair Code</button>
-  <button onclick="window.open(`https://github.com/Itxxwasi/WASI-MD-V`)" class="btn">Bot Repo</button>
-  <button onclick="window.open(`https://github.com/wasixd/WASI-MD-PLUGINS`)" class="btn">Plugins</button>
-  <button onclick="window.open(`https://wa.me/923192173398`)" class="btn">Contact Me</button>
-  <button onclick="window.open(`https://chat.whatsapp.com/L14FfkAgFCN9eXGe5Sqjqt`)" class="btn">Wa Group</button>
-  <button onclick="window.open(`https://whatsapp.com/channel/0029VaDK8ZUDjiOhwFS1cP2j`)" class="btn">Wa Channel</button>
-  <button onclick="window.open(`https://instagram.com/itx_mee_wasi`)" class="btn">Instagram</button>
-  <button onclick="window.open(`https://youtube.com/@wasitech1`)" class="btn">Youtube</button>
+  <button id="btn-bot-repo" onclick="" class="btn">Bot Repo</button>
+  <button id="btn-plugins" onclick="" class="btn">Plugins</button>
+  <button id="btn-contact" onclick="" class="btn">Contact Me</button>
+  <button id="btn-group" onclick="" class="btn">Wa Group</button>
+  <button id="btn-channel" onclick="" class="btn">Wa Channel</button>
+  <button id="btn-instagram" onclick="" class="btn">Instagram</button>
+  <button id="btn-youtube" onclick="" class="btn">Youtube</button>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    // Load configuration and update UI
+    async function loadConfig() {
+      try {
+        const { data: config } = await axios('/config');
+        document.getElementById('creator-name').innerText = 'Created by ' + config.CREATOR_NAME;
+        document.getElementById('btn-bot-repo').onclick = () => window.open(config.BOT_REPO);
+        document.getElementById('btn-plugins').onclick = () => window.open(config.PLUGINS_REPO);
+        document.getElementById('btn-contact').onclick = () => window.open(`https://wa.me/${config.PHONE_NUMBER}`);
+        document.getElementById('btn-group').onclick = () => window.open(config.WHATSAPP_GROUP);
+        document.getElementById('btn-channel').onclick = () => window.open(config.WHATSAPP_CHANNEL);
+        document.getElementById('btn-instagram').onclick = () => window.open(`https://${config.INSTAGRAM}`);
+        document.getElementById('btn-youtube').onclick = () => window.open(`https://${config.YOUTUBE_CHANNEL}`);
+      } catch (err) {
+        console.log('Using default configuration');
+      }
+    }
+    loadConfig();
+  </script>
 </body>
 </html>
